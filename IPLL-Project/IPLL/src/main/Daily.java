@@ -26,18 +26,21 @@ public class Daily extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Title label
-        JLabel dailyTitle = new JLabel("Daily Questions - Sponsored by CodeChef");
+        JLabel dailyTitle = new JLabel("Daily Questions - Sponsored by CodeForces");
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         panel.add(dailyTitle, gbc);
 
         // Question label
-        JLabel question = new JLabel("Lorem Ipsum");
+        JLabel question = new JLabel("Fetching question .....");
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
         panel.add(question, gbc);
+
+        String problemname = fetchCodeForceProblems();
+        question.setText(problemname);
 
         // Attend test button
         JButton attendTest = new JButton("Go To CodeChef");
@@ -52,10 +55,33 @@ public class Daily extends JFrame {
         gbc.gridy = 3;
         panel.add(time, gbc);
 
+
+        attendTest.addActionListener(e->{
+            try{
+                String url = "https://codeforces.com/contest/"+contestId+"/problems/"+index;
+                Desktop.getDesktop().browse(URI.create(url));
+            }catch(Exception ex){
+                ex.printStackTrace() ; 
+            }
+        });
+
         add(panel);
+
+
+
+    }
+    
+    public static fetchCodeForceProblems(){
+        String jsonResponse = CodeforcesProblems.fetchProblems();
+        if(jsonResponse != null){
+            JSONObject jsonobj = new JSONObject(jsonResponse);
+            JSONArray problems = jsonobj.getJSONObject("result").getJSONArray("problems");
+            return problems.getJSONObject(0).getString("name");
+        }
+        return "failed to fetch problem";
     }
 
-    public static void main(String... args) {
+    public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             Daily daily = new Daily();
             daily.setVisible(true);
