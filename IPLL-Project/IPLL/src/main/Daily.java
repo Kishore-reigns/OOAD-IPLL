@@ -13,6 +13,9 @@ import javax.swing.WindowConstants;
 
 public class Daily extends JFrame {
 
+    private String contentId ; 
+    private String index;
+
     public Daily() {
         setTitle("Daily Questions - Happy Coding ");
         setSize(900, 600);
@@ -72,11 +75,18 @@ public class Daily extends JFrame {
     }
     
     public static fetchCodeForceProblems(){
+        try{
         String jsonResponse = CodeforcesProblems.fetchProblems();
         if(jsonResponse != null){
             JSONObject jsonobj = new JSONObject(jsonResponse);
             JSONArray problems = jsonobj.getJSONObject("result").getJSONArray("problems");
-            return problems.getJSONObject(0).getString("name");
+            JSONObject firstProblem = problems.getJSONObject(0);
+            contestId = firstProblem.getString("contestId");
+            index = firstProblem.getString("index");
+            return firstProblem.getString("name");
+        }
+        }catch(Exception e){
+            e.printStackTrace();
         }
         return "failed to fetch problem";
     }
