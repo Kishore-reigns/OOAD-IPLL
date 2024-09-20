@@ -106,7 +106,10 @@ public class MainPage extends JFrame {
         dailyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainPage.this, "Daily Button Clicked");
+            	//this.setVisible(false);
+            	new CodeforcesProblems() ; 
+            	new Daily() ;
+                //JOptionPane.showMessageDialog(MainPage.this, "Daily Button Clicked");
             }
         });
         add(panel);
