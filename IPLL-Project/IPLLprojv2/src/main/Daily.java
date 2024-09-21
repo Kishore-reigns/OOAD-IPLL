@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.net.URI;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -46,7 +47,7 @@ public class Daily extends JFrame {
         panel.add(dailyTitle, gbc);
 
         // Question label
-        questionLabel = new JLabel("Fetching question .....");
+        JLabel questionLabel = new JLabel("Fetching question .....");
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
@@ -91,7 +92,7 @@ public class Daily extends JFrame {
             if (jsonResponse != null) {
                 JSONObject jsonobj = new JSONObject(jsonResponse);
                 JSONArray problems = jsonobj.getJSONObject("result").getJSONArray("problems");
-
+                Random random = new Random();
                 JSONObject firstProblem = problems.getJSONObject(0);
 
                 int contestIdInt = firstProblem.getInt("contestId");

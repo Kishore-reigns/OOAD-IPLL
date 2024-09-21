@@ -99,15 +99,17 @@ public class MainPage extends JFrame {
         testButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainPage.this, "Test Button Clicked");
+            	
+            	new Test();
+                //JOptionPane.showMessageDialog(MainPage.this, "Test Button Clicked");
             }
         });
 
         dailyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	//this.setVisible(false);
-            	new CodeforcesProblems() ; 
+            	
+            	//new CodeforcesProblems() ; 
             	new Daily() ;
                 //JOptionPane.showMessageDialog(MainPage.this, "Daily Button Clicked");
             }
