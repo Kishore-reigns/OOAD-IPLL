@@ -1,0 +1,127 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class LanguageLearningApp extends JFrame {
+
+    public LanguageLearningApp() {
+       
+        setTitle("Interactive Programming Language Learner");
+        setSize(800, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+       
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new BorderLayout());
+        contentPanel.setBackground(Color.BLACK);
+        setContentPane(contentPanel);
+
+        // Create a panel for the language buttons with horizontal alignment
+        JPanel languagePanel = new JPanel();
+        languagePanel.setLayout(new BoxLayout(languagePanel, BoxLayout.X_AXIS));
+        languagePanel.setBackground(Color.BLACK);  k
+
+        
+        languagePanel.add(Box.createHorizontalGlue());
+
+    
+        JButton cButton = createLanguageButton("C", "C:\\Users\\inbav\\Downloads\\c1.png");
+        languagePanel.add(cButton);
+
+
+        languagePanel.add(Box.createRigidArea(new Dimension(20, 0)));
+
+     
+        JButton javaButton = createLanguageButton("Java", "C:\\Users\\inbav\\Downloads\\java.png");
+        languagePanel.add(javaButton);
+
+        languagePanel.add(Box.createRigidArea(new Dimension(20, 0)));
+
+      
+        JButton moreLanguagesButton = createLanguageButton("More Languages", "C:\\Users\\inbav\\Downloads\\more.jpg");
+        languagePanel.add(moreLanguagesButton);
+
+        languagePanel.add(Box.createHorizontalGlue());
+
+        JPanel backPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); 
+        backPanel.setBackground(Color.BLACK); 
+        JButton backButton = new JButton("<-");
+        backButton.setBackground(Color.DARK_GRAY); 
+        backButton.setForeground(Color.WHITE);     
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ere
+            }
+        });
+        backPanel.add(backButton); // Add back button to its panel
+
+        // Create a panel to hold the title label and language panel together
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BorderLayout());
+        topPanel.setBackground(Color.BLACK);  // Set background to black
+
+        // Add "Start Learning" label at the top with vertical space
+        JLabel titleLabel = new JLabel("Start Learning", SwingConstants.CENTER);
+        titleLabel.setForeground(new Color(138, 43, 226)); 
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));  
+        titleLabel.setBackground(Color.BLACK);  
+        titleLabel.setOpaque(true);  
+
+        topPanel.add(Box.createRigidArea(new Dimension(0, 20)), BorderLayout.NORTH);e
+        topPanel.add(titleLabel, BorderLayout.NORTH);
+        topPanel.add(languagePanel, BorderLayout.CENTER);
+
+        contentPanel.add(topPanel, BorderLayout.CENTER);
+        contentPanel.add(backPanel, BorderLayout.WEST); 
+
+     ton
+        cButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(LanguageLearningApp.this, "Learning C Language!");
+            }
+        });
+
+        javaButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(LanguageLearningApp.this, "Learning Java Language!");
+            }
+        });
+
+        moreLanguagesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(LanguageLearningApp.this, "More Languages coming soon!");
+            }
+        });
+    }
+
+    private JButton createLanguageButton(String text, String iconPath) {
+        JButton button = new JButton(text);
+
+        ImageIcon icon = new ImageIcon(iconPath);
+        Image scaledImage = icon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH); s
+        button.setIcon(new ImageIcon(scaledImage));
+
+
+        button.setHorizontalTextPosition(SwingConstants.CENTER);y
+        button.setVerticalTextPosition(SwingConstants.BOTTOM);   
+
+    
+        button.setBorder(null);                      
+        button.setContentAreaFilled(false);          
+        button.setFocusPainted(false);              
+        button.setOpaque(false);                      
+        button.setForeground(Color.WHITE);            
+        return button;
+    }
+
+    public static void main(String[] args) {
+        LanguageLearningApp app = new LanguageLearningApp();
+        app.setVisible(true);
+    }
+}
