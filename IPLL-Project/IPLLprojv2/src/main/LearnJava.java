@@ -67,10 +67,12 @@ public class LearnJava extends JFrame {
         Document lesson = collection.find().first(); // Get the lesson document
 
         // Check if slides are available
+        /*
         if (lesson == null || !lesson.containsKey("slides")) {
             JOptionPane.showMessageDialog(this, "Slides not available for this lesson.");
             return;
         }
+        */
 
         List<Document> slides = (List<Document>) lesson.get("slides");
 
@@ -97,11 +99,18 @@ public class LearnJava extends JFrame {
 
     private void loadSlide(JPanel contentPanel, List<Document> slides, String collectionName, JFrame lessonFrame) {
         // Make sure slides list is not empty
-        if (slides == null || slides.isEmpty()) {
+        /*
+    	if (slides == null || slides.isEmpty()) {
             JOptionPane.showMessageDialog(this, "No slides available.");
             lessonFrame.dispose();
             return;
         }
+        */
+    	
+    	System.out.println("Current Slide: " + currentSlide);
+    	System.out.println("Total Slides: " + slides.size());
+
+    	
 
         contentPanel.removeAll();
         Document currentSlideDoc = slides.get(currentSlide);
@@ -143,7 +152,7 @@ public class LearnJava extends JFrame {
         contentPanel.add(buttonPanel);
 
         // If it's the last slide, show Submit button, otherwise Next
-        if (currentSlide == slides.size() - 1) {
+        if (currentSlide == slides.size() - 1 ) {
             JButton submitButton = new JButton("Submit");
             buttonPanel.add(submitButton);
             submitButton.addActionListener(e -> {
