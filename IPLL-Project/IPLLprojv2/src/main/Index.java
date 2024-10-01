@@ -20,6 +20,14 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Updates;
+import org.bson.Document;
+import org.bson.conversions.Bson;
+
 
 
 public class Index extends JFrame {
@@ -27,6 +35,11 @@ public class Index extends JFrame {
 	public JTextField usernameField ;
 	public JPasswordField passwordField ;
 	private JButton loginbutton ;
+	
+	 private MongoClient client;
+	 private MongoDatabase database;
+	 private MongoCollection<Document> collection ;
+	 Document user ; 
 
 	Font ipllfont = new Font("Times New Roman", Font.BOLD, 16);
 
@@ -39,6 +52,11 @@ public class Index extends JFrame {
 	    usernameField = new JTextField(15);
 	    passwordField = new JPasswordField(15);
 	    loginbutton = new JButton("Login");
+	    
+	     client =  MongoClients.create("mongodb://localhost:27017");
+	     database = client.getDatabase("ipllDb");
+	      collection = database.getCollection("User");
+	      user = collection.find().first();
 
 
 
@@ -126,8 +144,8 @@ public class Index extends JFrame {
 
 	public void handleLogin() {
 
-		String username = "test" ;
-		String password = "test123" ;
+		String username = user.getString("username") ;
+		String password = user.getString("password") ;
 		String enteredusername = new String(usernameField.getText());
 		String enteredpass = new String(passwordField.getPassword());
 
