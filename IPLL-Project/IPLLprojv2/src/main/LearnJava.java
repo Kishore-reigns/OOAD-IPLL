@@ -134,22 +134,24 @@ public class LearnJava extends JFrame {
     }
 
     private void loadSlide(JPanel contentPanel, List<Document> slides, String collectionName, JFrame lessonFrame) {
-        System.out.println("Current Slide: " + currentSlide);
-        System.out.println("Total Slides: " + slides.size());
-
         contentPanel.removeAll();
         Document currentSlideDoc = slides.get(currentSlide);
 
-        // Display the content/question
+        // Create a vertical layout for the content
+        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+
+        // Display the question content at the top
         JTextArea contentArea = new JTextArea(currentSlideDoc.getString("content"));
         contentArea.setLineWrap(true);
         contentArea.setWrapStyleWord(true);
         contentArea.setEditable(false);
-        contentPanel.add(new JScrollPane(contentArea));
+        contentArea.setFont(new Font("Serif", Font.PLAIN, 18));
+        contentArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Add some padding around the question
+        contentPanel.add(contentArea);
 
-        // Panel for options (quiz answers) in a 2x2 grid layout
+        // Create a 4x1 grid for quiz options
         JPanel optionsPanel = new JPanel();
-        optionsPanel.setLayout(new GridLayout(2, 2, 10, 10));  // 2 rows, 2 columns, with 10px gap
+        optionsPanel.setLayout(new GridLayout(4, 1, 10, 10));  // 4 rows, 1 column with 10px gap between them
         contentPanel.add(optionsPanel);
 
         // Handle quiz options if available
@@ -158,15 +160,33 @@ public class LearnJava extends JFrame {
             int correctIndex = currentSlideDoc.getInteger("ansindex");
 
             ButtonGroup buttonGroup = new ButtonGroup();
+            List<JRadioButton> optionButtons = new ArrayList<>();
+
             for (int i = 0; i < options.size(); i++) {
                 int optionIndex = i;
                 JRadioButton optionButton = new JRadioButton(options.get(i).toString());
+                optionButton.setFont(new Font("Serif", Font.PLAIN, 16));
+                optionButtons.add(optionButton);
                 buttonGroup.add(optionButton);
                 optionsPanel.add(optionButton);
 
+                // Action listener to track user's answer
                 optionButton.addActionListener(e -> {
+                    for (JRadioButton btn : optionButtons) {
+                        btn.setBorder(BorderFactory.createEmptyBorder());  // Reset all borders first
+                    }
+
+                    // Check if the selected option is correct or incorrect
                     if (optionIndex == correctIndex) {
-                        score++;
+                        optionButton.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));  // Green border for correct
+                    } else {
+                        optionButton.setBorder(BorderFactory.createLineBorder(Color.RED, 3));    // Red border for incorrect
+                        optionButtons.get(correctIndex).setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));  // Highlight correct answer
+                    }
+
+                    // Disable options after the user selects one
+                    for (JRadioButton btn : optionButtons) {
+                        btn.setEnabled(false);
                     }
                 });
             }
@@ -198,6 +218,7 @@ public class LearnJava extends JFrame {
         contentPanel.revalidate();
         contentPanel.repaint();
     }
+
 
     private void submitLesson(String collectionName, int totalSlides, JFrame lessonFrame) {
         // Update lesson as completed
