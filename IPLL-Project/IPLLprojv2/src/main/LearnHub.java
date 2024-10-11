@@ -13,6 +13,7 @@ public class LearnHub extends JFrame {
         setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        setLocationRelativeTo(null);
 
         // Set the background color of the content panel to black
         JPanel contentPanel = new JPanel();
@@ -88,7 +89,13 @@ public class LearnHub extends JFrame {
         cButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(LearnHub.this, "Learn C!");
+            	
+            	LearnHub.this.setVisible(false);
+            	LearnC lc = new LearnC();
+            	lc.setVisible(true);
+            	LearnHub.this.dispose();
+            	
+                //JOptionPane.showMessageDialog(LearnHub.this, "Learn C!");
             }
         });
 
@@ -96,7 +103,12 @@ public class LearnHub extends JFrame {
         javaButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(LearnHub.this, "Learn Java!");
+                
+            	LearnHub.this.setVisible(false);
+            	LearnJava lj = new LearnJava();
+            	lj.setVisible(true);
+            	LearnHub.this.dispose();
+            	//JOptionPane.showMessageDialog(LearnHub.this, "Learn Java!");
             }
         });
 

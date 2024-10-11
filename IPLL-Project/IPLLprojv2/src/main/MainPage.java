@@ -78,21 +78,35 @@ public class MainPage extends JFrame {
         profileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainPage.this, "Profile Button Clicked");
+               
+            	MainPage.this.setVisible(false);
+                Profile profile = new Profile() ; 
+                profile.setVisible(true);
+                MainPage.this.dispose();
+            	//JOptionPane.showMessageDialog(MainPage.this, "Profile Button Clicked");
             }
         });
 
         settingsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainPage.this, "Settings Button Clicked");
+            	
+            	MainPage.this.setVisible(false);
+            	Settings settings = new Settings();
+            	settings.setVisible(true);
+            	MainPage.this.dispose();
+               // JOptionPane.showMessageDialog(MainPage.this, "Settings Button Clicked");
             }
         });
 
         learnButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(MainPage.this, "Learning Button Clicked");
+            public void actionPerformed(ActionEvent e){
+                MainPage.this.setVisible(false);
+                LearnHub lh = new LearnHub() ; 
+                lh.setVisible(true);
+                MainPage.this.dispose();
+            	//JOptionPane.showMessageDialog(MainPage.this, "Learning Button Clicked");
             }
         });
 
@@ -100,7 +114,11 @@ public class MainPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
             	
-            	new Test();
+            	MainPage.this.setVisible(false);
+            	Test test = new Test() ; 
+            	test.setVisible(true);
+            	MainPage.this.dispose();
+            
                 //JOptionPane.showMessageDialog(MainPage.this, "Test Button Clicked");
             }
         });
@@ -110,7 +128,10 @@ public class MainPage extends JFrame {
             public void actionPerformed(ActionEvent e) {
             	
             	//new CodeforcesProblems() ; 
-            	new Daily() ;
+            	MainPage.this.setVisible(false);
+            	Daily daily = new Daily() ;
+            	daily.setVisible(true);
+            	MainPage.this.dispose();
                 //JOptionPane.showMessageDialog(MainPage.this, "Daily Button Clicked");
             }
         });
