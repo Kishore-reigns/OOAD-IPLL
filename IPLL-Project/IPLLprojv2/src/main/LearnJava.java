@@ -10,6 +10,8 @@ import org.bson.conversions.Bson;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,19 +28,41 @@ public class LearnJava extends JFrame {
         setSize(900, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setLayout(new BorderLayout());  // Use BorderLayout to arrange components
 
+        // Back button in a separate panel at the top
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));  // Align to the left
+        JButton backButton = new JButton("<-");
+        backButton.setPreferredSize(new Dimension(70, 30));  // Size for the button
+        topPanel.add(backButton);
+
+        add(topPanel, BorderLayout.NORTH);  // Add topPanel to the top (NORTH)
+
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LearnJava.this.setVisible(false);
+                LearnHub mp = new LearnHub();
+                mp.setVisible(true);
+                LearnJava.this.dispose();
+            }
+        });
+
+        // Panel for the lesson buttons
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));  // Arrange buttons left to right
+        JScrollPane scrollPane = new JScrollPane(buttonPanel);
+
+        add(scrollPane, BorderLayout.CENTER);  // Add the buttonPanel to the center (main area)
 
         // Connect to MongoDB
         mongoClient = MongoClients.create("mongodb://localhost:27017");
         database = mongoClient.getDatabase("ipllDb");
 
-        loadCollections();
-
-        JScrollPane scrollPane = new JScrollPane(buttonPanel);
-        add(scrollPane);
+        loadCollections();  // Load the lessons/collections
     }
+
 
     private void loadCollections() {
         buttonPanel.removeAll(); // Clear previous buttons if any

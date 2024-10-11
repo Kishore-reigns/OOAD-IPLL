@@ -10,6 +10,8 @@ import org.bson.conversions.Bson;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +29,23 @@ public class LearnC extends JFrame{
 	         setSize(900, 600);
 	         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	         setLocationRelativeTo(null);
+	         
+	         JButton backButton = new JButton("<-");
+	         backButton.setBounds(10, 10, 70, 30); // Position top-left
+	         add(backButton);
+	         backButton.addActionListener(new ActionListener() {
+
+	 			@Override
+	 			public void actionPerformed(ActionEvent e) {
+	 				// TODO Auto-generated method stub
+	 				LearnC.this.setVisible(false);
+	 				LearnHub mp = new LearnHub();
+	 				mp.setVisible(true);
+	 				LearnC.this.dispose();
+	 			}
+	         	
+	         	
+	         });
 	         
 	         buttonPanel = new JPanel();
 	         buttonPanel.setLayout(new FlowLayout());

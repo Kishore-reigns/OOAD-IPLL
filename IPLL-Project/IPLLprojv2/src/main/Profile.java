@@ -42,9 +42,10 @@ public class Profile extends JFrame {
         setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null); // Using absolute layout for precise control
-
+        setLocationRelativeTo(null);
+        
         // Back Button
-        JButton backButton = new JButton("Back");
+        JButton backButton = new JButton("<-");
         backButton.setBounds(10, 10, 70, 30); // Position top-left
         add(backButton);
 
@@ -156,7 +157,11 @@ public class Profile extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Handle back button action
-                System.out.println("Back button pressed!");
+            	Profile.this.setVisible(false);
+            	MainPage mp = new MainPage();
+            	mp.setVisible(true);
+            	Profile.this.dispose();
+                //System.out.println("Back button pressed!");
             }
         });
     }

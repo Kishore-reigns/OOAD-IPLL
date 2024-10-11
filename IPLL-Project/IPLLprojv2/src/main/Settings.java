@@ -35,6 +35,22 @@ public class Settings extends JFrame {
 
         JPanel settingspanel = new JPanel();
         settingspanel.setLayout(new GridBagLayout());
+        JButton backButton = new JButton("<-");
+        backButton.setBounds(10, 10, 70, 30); // Position top-left
+        add(backButton);
+        backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Settings.this.setVisible(false);
+				MainPage mp = new MainPage();
+				mp.setVisible(true);
+				Settings.this.dispose();
+			}
+        	
+        	
+        });
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10); // padding

@@ -4,6 +4,8 @@ import java.awt.Desktop;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URI;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +25,23 @@ public class Test extends JFrame {
         setSize(900, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        
+        JButton backButton = new JButton("<-");
+        backButton.setBounds(10, 10, 70, 30); // Position top-left
+        add(backButton);
+        backButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				Test.this.setVisible(false);
+				MainPage mp = new MainPage();
+				mp.setVisible(true);
+				Test.this.dispose();
+			}
+        	
+        	
+        });
 
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());

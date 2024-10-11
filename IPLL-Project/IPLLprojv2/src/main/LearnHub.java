@@ -60,6 +60,11 @@ public class LearnHub extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Handle back button action here
+            	LearnHub.this.setVisible(false); 
+            	MainPage mp = new MainPage();
+            	mp.setVisible(true);
+            	LearnHub.this.dispose();
+            	
             }
         });
         backPanel.add(backButton); // Add back button to its panel
