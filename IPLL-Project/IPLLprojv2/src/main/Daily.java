@@ -34,42 +34,40 @@ public class Daily extends JFrame {
         setSize(900, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+
+        // Set up panel with GridBagLayout
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.fill = GridBagConstraints.CENTER;
+        gbc.anchor = GridBagConstraints.CENTER;
 
         // Title label
         JLabel dailyTitle = new JLabel("Daily Questions - Sponsored by CodeForces");
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 1;
         panel.add(dailyTitle, gbc);
 
         // Question label
-        JLabel questionLabel = new JLabel("Fetching question .....");
-        gbc.gridx = 0;
+        questionLabel = new JLabel("Fetching question ....."); // Set as instance variable
         gbc.gridy = 1;
-        gbc.gridwidth = 2;
         panel.add(questionLabel, gbc);
-        
+
+        // Back Button - Position at the top left corner
         JButton backButton = new JButton("<-");
         backButton.setBounds(10, 10, 70, 30); // Position top-left
         add(backButton);
         backButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				Daily.this.setVisible(false);
-				MainPage mp = new MainPage();
-				mp.setVisible(true);
-				Daily.this.dispose();
-			}
-        	
-        	
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Daily.this.setVisible(false);
+                MainPage mp = new MainPage();
+                mp.setVisible(true);
+                Daily.this.dispose();
+            }
         });
 
         // Fetch and display the initial question
@@ -78,14 +76,11 @@ public class Daily extends JFrame {
 
         // Attend test button
         JButton attendTest = new JButton("Go To CodeForces");
-        gbc.gridx = 0;
         gbc.gridy = 2;
-        gbc.gridwidth = 1;
         panel.add(attendTest, gbc);
 
         // Time label for countdown
         countdownLabel = new JLabel("Time until next question: calculating...");
-        gbc.gridx = 0;
         gbc.gridy = 3;
         panel.add(countdownLabel, gbc);
 
@@ -132,7 +127,7 @@ public class Daily extends JFrame {
         // Schedule the task to run every minute
         scheduler.scheduleAtFixedRate(() -> {
             LocalTime now = LocalTime.now();
-            
+
             // Check if it's 12 PM (noon)
             if (now.getHour() == 0 && now.getMinute() == 0) {
                 // Fetch the new problem at 12 PM and update the question label
@@ -146,18 +141,16 @@ public class Daily extends JFrame {
     private void scheduleCountdownUpdate() {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-        
         scheduler.scheduleAtFixedRate(() -> {
             LocalTime now = LocalTime.now();
             LocalTime resetTime = LocalTime.of(23, 59, 59);
 
-          
             if (now.isAfter(resetTime)) {
                 resetTime = resetTime.plusHours(24);
             }
-           
+
             // Calculate the remaining time until 12 PM
-            Duration duration = Duration.between(now,resetTime);
+            Duration duration = Duration.between(now, resetTime);
             long hours = duration.toHours();
             long minutes = duration.toMinutesPart();
             long seconds = duration.toSecondsPart();
