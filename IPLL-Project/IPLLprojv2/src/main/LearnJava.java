@@ -51,7 +51,7 @@ public class LearnJava extends JFrame {
 
         // Panel for the lesson buttons
         buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));  // Arrange buttons left to right
+        buttonPanel.setLayout(new GridLayout(0, 2, 20, 20));  // 2 columns with gaps
         JScrollPane scrollPane = new JScrollPane(buttonPanel);
 
         add(scrollPane, BorderLayout.CENTER);  // Add the buttonPanel to the center (main area)
@@ -62,7 +62,6 @@ public class LearnJava extends JFrame {
 
         loadCollections();  // Load the lessons/collections
     }
-
 
     private void loadCollections() {
         buttonPanel.removeAll(); // Clear previous buttons if any
@@ -75,17 +74,34 @@ public class LearnJava extends JFrame {
             if (collectionName.contains("Clesson") || collectionName.contains("User")) continue;
 
             JButton lessonButton = new JButton(collectionName);
-            lessonButton.setPreferredSize(new Dimension(150, 50));
+            lessonButton.setPreferredSize(new Dimension(200, 100));  // Adjust button size
             lessonButton.setFocusable(false);
-            lessonButton.setBorder(BorderFactory.createEmptyBorder());
+            lessonButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Add padding
+            lessonButton.setFont(new Font("Serif", Font.BOLD, 18));  // Set font style and size
+            lessonButton.setBackground(new Color(173, 216, 230)); // Light blue background
+            lessonButton.setForeground(Color.BLACK); // Black text
+            lessonButton.setOpaque(true); // Make background visible
+            lessonButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2)); // Border color
 
             lessonButton.addActionListener(e -> openLesson(collectionName));
+            lessonButton.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    lessonButton.setBackground(new Color(135, 206, 250)); // Change to a lighter blue
+                    lessonButton.setForeground(Color.WHITE); // Change text color on hover
+                }
+
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    lessonButton.setBackground(new Color(173, 216, 230)); // Revert to original background
+                    lessonButton.setForeground(Color.BLACK); // Revert to original text color
+                }
+            });
             buttonPanel.add(lessonButton);
         }
         buttonPanel.revalidate();
         buttonPanel.repaint();
     }
-
     private void openLesson(String collectionName) {
         MongoCollection<Document> collection = database.getCollection(collectionName);
         Document lesson = collection.find().first(); // Get the lesson document

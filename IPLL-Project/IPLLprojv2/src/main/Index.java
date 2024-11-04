@@ -110,7 +110,6 @@ public class Index extends JFrame {
 
 
 	    loginpanel.setBackground(Color.decode("#2B2B2B"));
-
 	    usernamelabel.setForeground(Color.decode("#1ABA8D"));
 	    passwordlabel.setForeground(Color.decode("#1ABA8D"));
 

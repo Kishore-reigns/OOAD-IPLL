@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -34,10 +35,16 @@ public class Daily extends JFrame {
         setSize(900, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+      
 
         // Set up panel with GridBagLayout
+       
         JPanel panel = new JPanel();
+        setContentPane(panel);
         panel.setLayout(new GridBagLayout());
+        panel.setOpaque(true);
+        panel.setBackground(Color.green);
+
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);

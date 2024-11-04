@@ -32,8 +32,10 @@ public class Settings extends JFrame {
         setTitle("Settings");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Center the frame on the screen
-
+        getContentPane().setBackground(Color.decode("#2B2B2B"));
+        
         JPanel settingspanel = new JPanel();
+        settingspanel.setBackground(Color.decode("#2B2B2B"));
         settingspanel.setLayout(new GridBagLayout());
         JButton backButton = new JButton("<-");
         backButton.setBounds(10, 10, 70, 30); // Position top-left
