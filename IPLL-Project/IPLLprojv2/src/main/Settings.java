@@ -12,6 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Settings extends JFrame {
 
@@ -61,6 +63,23 @@ public class Settings extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 0;
         changeUsername = new JButton("Change Username");
+        changeUsername.setBackground(Color.decode("#1ABA8D"));
+        
+        changeUsername.addMouseListener(new MouseAdapter() {
+
+	    	@Override
+			public void mouseEntered(MouseEvent e) {
+	    		changeUsername.setBackground(Color.decode("#BA1A47"));
+	    		changeUsername.setForeground(Color.black);
+	    	}
+
+	    	@Override
+			public void mouseExited(MouseEvent e) {
+	    		changeUsername.setBackground(Color.decode("#1ABA8D"));
+	    		changeUsername.setForeground(Color.black);
+	    	}
+	    });
+        
         changeUsername.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,6 +90,25 @@ public class Settings extends JFrame {
 
         gbc.gridy = 1;
         changePassword = new JButton("Change Password");
+        
+        changePassword.setBackground(Color.decode("#1ABA8D"));
+        
+        changePassword.addMouseListener(new MouseAdapter() {
+
+	    	@Override
+			public void mouseEntered(MouseEvent e) {
+	    		changePassword.setBackground(Color.decode("#BA1A47"));
+	    		changePassword.setForeground(Color.black);
+	    	}
+
+	    	@Override
+			public void mouseExited(MouseEvent e) {
+	    		changePassword.setBackground(Color.decode("#1ABA8D"));
+	    		changePassword.setForeground(Color.black);
+	    	}
+	    });
+        
+    
         changePassword.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,6 +119,23 @@ public class Settings extends JFrame {
 
         gbc.gridy = 2;
         changePic = new JButton("Change Avatar");
+        
+        changePic.setBackground(Color.decode("#1ABA8D"));
+        
+        changePic.addMouseListener(new MouseAdapter() {
+
+	    	@Override
+			public void mouseEntered(MouseEvent e) {
+	    		changePic.setBackground(Color.decode("#BA1A47"));
+	    		changePic.setForeground(Color.black);
+	    	}
+
+	    	@Override
+			public void mouseExited(MouseEvent e) {
+	    		changePic.setBackground(Color.decode("#1ABA8D"));
+	    		changePic.setForeground(Color.black);
+	    	}
+	    });
         changePic.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

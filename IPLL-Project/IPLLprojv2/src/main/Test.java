@@ -1,11 +1,15 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.Font ; 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URI;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,6 +29,7 @@ public class Test extends JFrame {
         setSize(900, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        getContentPane().setBackground(Color.decode("#2B2B2B"));
         
         JButton backButton = new JButton("<-");
         backButton.setBounds(10, 10, 70, 30); // Position top-left
@@ -45,7 +50,11 @@ public class Test extends JFrame {
 
         panel = new JPanel();
         panel.setLayout(new GridBagLayout());
+        panel.setBackground(Color.decode("#2B2B2B"));
+        panel.setForeground(Color.white);
 
+        
+        
         JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -53,10 +62,10 @@ public class Test extends JFrame {
 
         add(scrollPane);
     }
-
     public void fetchCodeForceProblems() {
         try {
             String jsonResponse = CodeforcesProblems.fetchProblems();
+            Font boldfont = new Font("Default",Font.BOLD, 12) ; 
             if (jsonResponse != null) {
                 JSONObject jsonobj = new JSONObject(jsonResponse);
                 JSONArray problems = jsonobj.getJSONObject("result").getJSONArray("problems");
@@ -68,19 +77,34 @@ public class Test extends JFrame {
                 // Header row
                 gbc.gridx = 0;
                 gbc.gridy = 0;
-                panel.add(new JLabel("No."), gbc);
+                JLabel numberLabel = new JLabel("No.");
+                numberLabel.setForeground(Color.WHITE);
+                numberLabel.setFont(boldfont);
+                panel.add(numberLabel, gbc);
 
                 gbc.gridx = 1;
-                panel.add(new JLabel("Content ID"), gbc);
-
+                JLabel contentIdLabel = new JLabel("Content ID");
+                contentIdLabel.setForeground(Color.WHITE);
+                contentIdLabel.setFont(boldfont);
+                panel.add(contentIdLabel, gbc);
+                
                 gbc.gridx = 2;
-                panel.add(new JLabel("Index"), gbc);
+                JLabel indexLabel = new JLabel("Index");
+                indexLabel.setForeground(Color.WHITE);
+                indexLabel.setFont(boldfont);
+                panel.add(indexLabel, gbc);
 
                 gbc.gridx = 3;
-                panel.add(new JLabel("Problem"), gbc);
+                JLabel problemLabel = new JLabel("Problem");
+                problemLabel.setForeground(Color.WHITE);
+                problemLabel.setFont(boldfont);
+                panel.add(problemLabel, gbc);
 
                 gbc.gridx = 4;
-                panel.add(new JLabel("Action"), gbc);
+                JLabel actionLabel = new JLabel("Action");
+                actionLabel.setForeground(Color.WHITE);
+                actionLabel.setFont(boldfont);
+                panel.add(actionLabel, gbc);
 
                 // Loop through the first 20 problems and display them in a grid
                 for (int i = 0; i < 20; i++) {
@@ -94,19 +118,27 @@ public class Test extends JFrame {
 
                     // Problem number
                     gbc.gridx = 0;
-                    panel.add(new JLabel(String.valueOf(i + 1)), gbc);
+                    JLabel problemNumberLabel = new JLabel(String.valueOf(i + 1));
+                    problemNumberLabel.setForeground(Color.WHITE);
+                    panel.add(problemNumberLabel, gbc);
 
                     // Contest ID
                     gbc.gridx = 1;
-                    panel.add(new JLabel(contestId), gbc);
+                    JLabel contestIdLabel = new JLabel(contestId);
+                    contestIdLabel.setForeground(Color.WHITE);
+                    panel.add(contestIdLabel, gbc);
 
                     // Index
                     gbc.gridx = 2;
-                    panel.add(new JLabel(problemIndex), gbc);
+                    JLabel problemIndexLabel = new JLabel(problemIndex);
+                    problemIndexLabel.setForeground(Color.WHITE);
+                    panel.add(problemIndexLabel, gbc);
 
                     // Problem name
                     gbc.gridx = 3;
-                    panel.add(new JLabel(problemName), gbc);
+                    JLabel problemNameLabel = new JLabel(problemName);
+                    problemNameLabel.setForeground(Color.WHITE);
+                    panel.add(problemNameLabel, gbc);
 
                     // Button to view the problem
                     JButton viewButton = new JButton("View Problem");
@@ -124,11 +156,25 @@ public class Test extends JFrame {
                         }
                     });
 
-                    gbc.gridx = 4; // Button goes in the final column
+                    viewButton.setBackground(Color.decode("#FED008"));
+
+                    viewButton.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            viewButton.setBackground(Color.decode("#E5D309"));
+                            viewButton.setForeground(Color.BLACK);
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            viewButton.setBackground(Color.decode("#FED008"));
+                            viewButton.setForeground(Color.BLACK);
+                        }
+                    });
+
+                    gbc.gridx = 4;
                     panel.add(viewButton, gbc);
                 }
-
-                // Revalidate and repaint the panel after adding components
                 panel.revalidate();
                 panel.repaint();
             }
