@@ -35,6 +35,13 @@ public class Profile extends JFrame {
         points = userdoc.getInteger("points");
         lessonscompleted = userdoc.getInteger("lessonsCompleted");
         picPath = userdoc.getString("avatar");
+        
+        
+        
+        checkaCchivements(db);
+        checkaJavachivements(db);
+        
+        
         badges = userdoc.getList("badges", String.class);
         int badgesSize = badges.size();
 
@@ -43,10 +50,13 @@ public class Profile extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null); // Using absolute layout for precise control
         setLocationRelativeTo(null);
+        getContentPane().setBackground(Color.decode("#2B2B2B"));
         
         // Back Button
         JButton backButton = new JButton("<-");
         backButton.setBounds(10, 10, 70, 30); // Position top-left
+        backButton.setBackground(Color.DARK_GRAY);
+        backButton.setForeground(Color.white);
         add(backButton);
 
         // Profile Image (Circular)
@@ -63,6 +73,7 @@ public class Profile extends JFrame {
             }
         };
         profilePanel.setBounds(50, 50, 150, 150); // Adjusted position and size
+        profilePanel.setBackground(Color.decode("#2B2B2B"));
         add(profilePanel);
 
         // User Info Panel
@@ -72,12 +83,22 @@ public class Profile extends JFrame {
         userInfoPanel.setLayout(new GridLayout(3, 1));
 
         JLabel usernameLabel = new JLabel(un, SwingConstants.CENTER);
+        usernameLabel.setBackground(Color.white);
+        usernameLabel.setForeground(Color.white);
+        usernameLabel.setFont(new Font("Arial",Font.BOLD,15));
         JLabel pointsLabel = new JLabel("Points : " + points, SwingConstants.CENTER);
+        pointsLabel.setBackground(Color.white);
+        pointsLabel.setForeground(Color.white);
+        pointsLabel.setFont(new Font("Arial",Font.BOLD,15));
         JLabel lessonsLabel = new JLabel("Lessons Completed : " + lessonscompleted, SwingConstants.CENTER);
+        lessonsLabel.setBackground(Color.white);
+        lessonsLabel.setForeground(Color.white);
+        lessonsLabel.setFont(new Font("Arial",Font.BOLD,15));
 
         userInfoPanel.add(usernameLabel);
         userInfoPanel.add(pointsLabel);
         userInfoPanel.add(lessonsLabel);
+        userInfoPanel.setBackground(Color.decode("#636363"));
         add(userInfoPanel);
 
         // Hexagon Shapes Panel (Scrollable)
@@ -98,7 +119,14 @@ public class Profile extends JFrame {
                     int x = xOffset + i * (hexagonSize * 2 + spacing); // Updated calculation for x
                     int y = 110; // Keep y constant for a single row
                     Shape hexagon = createHexagon(x, y, hexagonSize);
-                    g2.draw(hexagon);
+
+                    // Set color to yellow before filling hexagon
+                    g2.setColor(Color.YELLOW);
+                    g2.fill(hexagon); // Fill hexagon with yellow color
+
+                    // Set color back to black for hexagon outline
+                    g2.setColor(Color.BLACK);
+                    g2.draw(hexagon); // Draw hexagon outline
 
                     // Center the text inside the hexagon
                     String badgeText = badges.get(i);
@@ -121,6 +149,8 @@ public class Profile extends JFrame {
                         textX = x - textWidth / 2; // Recalculate position
                     }
 
+                    // Draw text in black to contrast with yellow hexagon
+                    g2.setColor(Color.BLACK);
                     g2.drawString(badgeText, textX, textY);
                     g2.setFont(originalFont); // Restore original font
                 }
@@ -143,7 +173,7 @@ public class Profile extends JFrame {
             }
         };
 
-       
+        hexagonPanel.setBackground(Color.decode("#636363"));
         hexagonPanel.setPreferredSize(new Dimension(1200, 200)); // Increased width for scrolling
 
         JScrollPane hexagonScrollPane = new JScrollPane(hexagonPanel);
@@ -152,18 +182,40 @@ public class Profile extends JFrame {
         hexagonScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER); // Disable vertical scroll
         add(hexagonScrollPane);
 
-        // Back button action
+
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Handle back button action
-            	Profile.this.setVisible(false);
-            	MainPage mp = new MainPage();
-            	mp.setVisible(true);
-            	Profile.this.dispose();
-                //System.out.println("Back button pressed!");
+                Profile.this.setVisible(false);
+                MainPage mp = new MainPage();
+                mp.setVisible(true);
+                Profile.this.dispose();
             }
         });
+    }
+    
+    
+    private void checkaCchivements(MongoDatabase db2) {
+    	MongoCollection<Document>collection =  db2.getCollection("User") ;
+    	 Document userdoc = collection.find().first();
+    	if(db2.getCollection("Clesson3").find().first().getBoolean("lessonCompleted")) {
+    		Document filter = new Document("_id", userdoc.get("_id"));
+    		Document update = new Document("$push",new Document("badges","C QUICKIE"));
+    		collection.updateOne(filter,update);
+    	}
+		
+	}
+
+
+	private void checkaJavachivements(MongoDatabase db2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public void checkCachivements() {
+    	
     }
 
     public static void main(String[] args) {

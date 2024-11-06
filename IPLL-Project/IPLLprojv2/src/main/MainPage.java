@@ -6,6 +6,10 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,7 +21,7 @@ import javax.swing.WindowConstants;
 
 public class MainPage extends JFrame {
     public MainPage() {
-        setTitle("Interactive Programming Language Learner v1.1s");
+        setTitle("Interactive Programming Language Learner v1.3s");
         setSize(900, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -26,28 +30,58 @@ public class MainPage extends JFrame {
         panel.setBackground(new Color(240, 248, 255)); // Light blue background
         panel.setPreferredSize(new Dimension(900, 600)); // Set panel to match frame size
         panel.setSize(900, 600);
+        panel.setBackground(Color.decode("#2B2B2B"));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 20, 10, 20); // Padding around components
 
         // Profile Button - Top Left Corner
-        JButton profileButton = createButton("Profile", Color.RED, Color.WHITE);
+        JButton profileButton = createButton("Profile", Color.decode("#D40B0B"), Color.WHITE);
+        profileButton.setPreferredSize(new Dimension(120,40));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(profileButton, gbc);
+        profileButton.addMouseListener(new MouseAdapter() {
+        	public void mouseEntered(MouseEvent e) {
+        		profileButton.setBackground(Color.decode("#B30B0B"));
+        		profileButton.setForeground(Color.white);
+	    	}
+
+	    	@Override
+			public void mouseExited(MouseEvent e) {
+	    		profileButton.setBackground(Color.decode("#D40B0B"));
+	    		 profileButton.setForeground(Color.white);
+        	
+        }
+	    });
 
         // Centered IPLL Label at the top
         JLabel ipllLabel = new JLabel("IPLL");
         ipllLabel.setFont(new Font("Times New Roman", Font.BOLD, 36));
-        ipllLabel.setForeground(new Color(128, 0, 128));
+        ipllLabel.setForeground(Color.decode("#FED008"));
+        
         gbc.gridx = 1;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         panel.add(ipllLabel, gbc);
 
         // Settings Button - Top Right Corner
-        JButton settingsButton = createButton("Settings", Color.RED, Color.WHITE);
+        JButton settingsButton = createButton("Settings", Color.decode("#D40B0B"), Color.WHITE);
+        settingsButton.setPreferredSize(new Dimension(120,40));
+        settingsButton.addMouseListener(new MouseAdapter() {
+        	public void mouseEntered(MouseEvent e) {
+        		settingsButton.setBackground(Color.decode("#B30B0B"));
+        		settingsButton.setForeground(Color.white);
+	    	}
+
+	    	@Override
+			public void mouseExited(MouseEvent e) {
+	    		settingsButton.setBackground(Color.decode("#D40B0B"));
+	    		settingsButton.setForeground(Color.white);
+        	
+        }
+	    });
         gbc.gridx = 3;
         gbc.anchor = GridBagConstraints.EAST;
         panel.add(settingsButton, gbc);
@@ -60,25 +94,64 @@ public class MainPage extends JFrame {
         Dimension buttonSize = new Dimension(120, 60);
 
         // Learning Button
-        JButton learnButton = createButton("Learning", Color.GREEN, Color.BLACK);
+        JButton learnButton = createButton("Learning", Color.decode("#1ABA8D"), Color.BLACK);
         learnButton.setPreferredSize(buttonSize);
         gbc.gridx = 0;
         gbc.gridy = 1;
         panel.add(learnButton, gbc);
+        learnButton.addMouseListener(new MouseAdapter() {
+        	public void mouseEntered(MouseEvent e) {
+        		learnButton.setBackground(Color.decode("#40B30E"));
+        		learnButton.setForeground(Color.white);
+	    	}
+
+	    	@Override
+			public void mouseExited(MouseEvent e) {
+	    		learnButton.setBackground(Color.decode("#1ABA8D"));
+	    		learnButton.setForeground(Color.black);
+        	
+        }
+	    });
 
         // Test Button
-        JButton testButton = createButton("Test", Color.GREEN, Color.BLACK);
+        JButton testButton = createButton("Test", Color.decode("#1ABA8D"), Color.BLACK);
         testButton.setPreferredSize(buttonSize);
         gbc.gridy = 2;
         panel.add(testButton, gbc);
+        testButton.addMouseListener(new MouseAdapter() {
+        	public void mouseEntered(MouseEvent e) {
+        		testButton.setBackground(Color.decode("#40B30E"));
+        		testButton.setForeground(Color.white);
+	    	}
+
+	    	@Override
+			public void mouseExited(MouseEvent e) {
+	    		testButton.setBackground(Color.decode("#1ABA8D"));
+	    		testButton.setForeground(Color.black);
+        	
+        }
+	    });
 
         // Daily Button with combined height of Learning and Test
-        JButton dailyButton = createButton("Daily", Color.GREEN, Color.BLACK);
-        dailyButton.setPreferredSize(new Dimension(120, 130));
+        JButton dailyButton = createButton("Daily", Color.decode("#1ABA8D"), Color.BLACK);
+        dailyButton.setPreferredSize(new Dimension(123, 140));
         gbc.gridx = 3;
         gbc.gridy = 1;
         gbc.gridheight = 2;
         panel.add(dailyButton, gbc);
+        dailyButton.addMouseListener(new MouseAdapter() {
+        	public void mouseEntered(MouseEvent e) {
+        		dailyButton.setBackground(Color.decode("#40B30E"));
+        		dailyButton.setForeground(Color.white);
+	    	}
+
+	    	@Override
+			public void mouseExited(MouseEvent e) {
+	    		dailyButton.setBackground(Color.decode("#1ABA8D"));
+	    		dailyButton.setForeground(Color.black);
+        	
+        }
+	    });
 
         // Vertical Separator with added space around it
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL);

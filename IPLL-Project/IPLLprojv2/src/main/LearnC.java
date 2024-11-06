@@ -29,10 +29,22 @@ public class LearnC extends JFrame{
 	         setSize(900, 600);
 	         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 	         setLocationRelativeTo(null);
+	         getContentPane().setBackground(Color.decode("#2B2B2B"));
+	         setLayout(new BorderLayout()); 
 	         
+	         JPanel topPanel = new JPanel();
+	         topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));  // Align to the left
 	         JButton backButton = new JButton("<-");
-	         backButton.setBounds(10, 10, 70, 30); // Position top-left
-	         add(backButton);
+	         backButton.setPreferredSize(new Dimension(70, 30));  // Size for the button
+	         backButton.setBackground(Color.DARK_GRAY);
+	         backButton.setForeground(Color.white);
+	         topPanel.add(backButton);
+	         JLabel info = new JLabel("More lessons are on the way ! stay tuned !!"); 
+	         info.setForeground(Color.white);     
+	         topPanel.add(info,BorderLayout.CENTER);
+	         topPanel.setBackground(Color.decode("#2B2B2B"));
+
+	         add(topPanel, BorderLayout.NORTH);
 	         backButton.addActionListener(new ActionListener() {
 
 	 			@Override
@@ -48,9 +60,13 @@ public class LearnC extends JFrame{
 	         });
 	         
 	         buttonPanel = new JPanel();
-	         buttonPanel.setLayout(new FlowLayout());
+	         buttonPanel.setLayout(new GridLayout(0, 2, 20, 20));
+	         //buttonPanel.setLayout(new FlowLayout());
+	         buttonPanel.setBackground(Color.decode("#2B2B2B"));
 	         
-	         add(buttonPanel, BorderLayout.CENTER); 
+	         JScrollPane scrollPane = new JScrollPane(buttonPanel);
+
+	         add(scrollPane, BorderLayout.CENTER);  
 	         
 	         mongoClient = MongoClients.create("mongodb://localhost:27017");
 	         database = mongoClient.getDatabase("ipllDb");
@@ -68,14 +84,31 @@ public class LearnC extends JFrame{
 	    		}
 	    	}
 	    	Collections.sort(list);
-	    	
 	    	for(String collectionName : list ) {
 	    		JButton lessonButton = new JButton(collectionName);
-	    		lessonButton.setPreferredSize(new Dimension(150, 50));
-	            lessonButton.setFocusable(false);
-	            lessonButton.setBorder(BorderFactory.createEmptyBorder());
-	            	System.out.print(collectionName);
+	    		  lessonButton.setPreferredSize(new Dimension(200, 100));  // Adjust button size
+	              lessonButton.setFocusable(false);
+	              lessonButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Add padding
+	              lessonButton.setFont(new Font("Serif", Font.BOLD, 20));  // Set font style and size
+	              lessonButton.setBackground(new Color(173, 216, 230)); // Light blue background
+	              lessonButton.setForeground(Color.BLACK); // Black text
+	              lessonButton.setOpaque(true); // Make background visible
+	              lessonButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2)); // Border color
+	              lessonButton.setToolTipText(database.getCollection(collectionName).find().first().getString("lessonName"));
 	            lessonButton.addActionListener(e -> openLesson(collectionName));
+	            lessonButton.addMouseListener(new java.awt.event.MouseAdapter() {
+	                @Override
+	                public void mouseEntered(java.awt.event.MouseEvent evt) {
+	                    lessonButton.setBackground(new Color(135, 206, 250)); // Change to a lighter blue
+	                    lessonButton.setForeground(Color.WHITE); // Change text color on hover
+	                }
+
+	                @Override
+	                public void mouseExited(java.awt.event.MouseEvent evt) {
+	                    lessonButton.setBackground(new Color(173, 216, 230)); // Revert to original background
+	                    lessonButton.setForeground(Color.BLACK); // Revert to original text color
+	                }
+	            });
 	            buttonPanel.add(lessonButton);
 	    		
 	    	}
@@ -126,6 +159,7 @@ public class LearnC extends JFrame{
 
 	        JPanel contentPanel = new JPanel();
 	        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+	        contentPanel.setBackground(Color.decode("#2B2B2B"));
 	        lessonFrame.add(contentPanel);
 
 	        // Display the content of the lesson
@@ -133,6 +167,8 @@ public class LearnC extends JFrame{
 	        contentArea.setLineWrap(true);
 	        contentArea.setWrapStyleWord(true);
 	        contentArea.setEditable(false);
+	        contentArea.setBackground(Color.decode("#2B2B2B")); // Set background of theory content
+	        contentArea.setForeground(Color.WHITE); 
 	        contentPanel.add(new JScrollPane(contentArea));
 
 	        lessonFrame.setVisible(true);
@@ -146,9 +182,11 @@ public class LearnC extends JFrame{
 	        lessonFrame.setSize(900, 600);
 	        lessonFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	        lessonFrame.setLocationRelativeTo(this);
+	        lessonFrame.setBackground(Color.decode("#2B2B2B"));
 
 	        JPanel contentPanel = new JPanel();
 	        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+	        contentPanel.setBackground(Color.decode("#2B2B2B"));
 	        lessonFrame.add(contentPanel);
 
 	        loadSlide(contentPanel, slides, collectionName, lessonFrame);
@@ -170,11 +208,14 @@ public class LearnC extends JFrame{
 	        contentArea.setEditable(false);
 	        contentArea.setFont(new Font("Serif", Font.PLAIN, 18));
 	        contentArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Add some padding around the question
+	        contentArea.setBackground(Color.decode("#2B2B2B")); // Set background color of quiz content
+	        contentArea.setForeground(Color.WHITE); // 
 	        contentPanel.add(contentArea);
 
 	        // Create a 4x1 grid for quiz options
 	        JPanel optionsPanel = new JPanel();
 	        optionsPanel.setLayout(new GridLayout(4, 1, 10, 10));  // 4 rows, 1 column with 10px gap between them
+	        optionsPanel.setBackground(Color.decode("#3B3B3B"));
 	        contentPanel.add(optionsPanel);
 
 	        // Handle quiz options if available
@@ -189,6 +230,8 @@ public class LearnC extends JFrame{
 	                int optionIndex = i;
 	                JRadioButton optionButton = new JRadioButton(options.get(i).toString());
 	                optionButton.setFont(new Font("Serif", Font.PLAIN, 16));
+	                optionButton.setBackground(Color.decode("#3B3B3B")); // Background for option buttons
+	                optionButton.setForeground(Color.WHITE);
 	                optionButtons.add(optionButton);
 	                buttonGroup.add(optionButton);
 	                optionsPanel.add(optionButton);
@@ -217,6 +260,7 @@ public class LearnC extends JFrame{
 
 	        // Panel for navigation buttons (Next/Submit)
 	        JPanel buttonPanel = new JPanel();
+	        buttonPanel.setBackground(Color.decode("#2B2B2B"));
 	        contentPanel.add(buttonPanel);
 
 	        // If it's the last slide, show Submit button, otherwise Next

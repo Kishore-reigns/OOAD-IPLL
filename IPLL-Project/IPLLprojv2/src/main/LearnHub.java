@@ -14,6 +14,7 @@ public class LearnHub extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
+        
 
         // Set the background color of the content panel to black
         JPanel contentPanel = new JPanel();

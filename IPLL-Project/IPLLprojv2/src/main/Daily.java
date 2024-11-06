@@ -7,6 +7,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URI;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -31,11 +33,12 @@ public class Daily extends JFrame {
     private JLabel countdownLabel;
 
     public Daily() {
-        setTitle("Daily Questions - Happy Coding ");
+        setTitle("Daily Questions - by CodeForces -- Happy Coding ");
         setSize(900, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-      
+       
+
 
         // Set up panel with GridBagLayout
        
@@ -43,7 +46,7 @@ public class Daily extends JFrame {
         setContentPane(panel);
         panel.setLayout(new GridBagLayout());
         panel.setOpaque(true);
-        panel.setBackground(Color.green);
+        panel.setBackground(Color.decode("#2B2B2B"));
 
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -53,6 +56,8 @@ public class Daily extends JFrame {
 
         // Title label
         JLabel dailyTitle = new JLabel("Daily Questions - Sponsored by CodeForces");
+        dailyTitle.setBackground(Color.white);
+        dailyTitle.setForeground(Color.white);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
@@ -61,12 +66,38 @@ public class Daily extends JFrame {
         // Question label
         questionLabel = new JLabel("Fetching question ....."); // Set as instance variable
         gbc.gridy = 1;
+        questionLabel.setBackground(Color.white);
+        questionLabel.setForeground(Color.white);
         panel.add(questionLabel, gbc);
 
         // Back Button - Position at the top left corner
+     // Back Button - Position at the top left corner
+        
+        JPanel backbuttonpanel = new JPanel(new GridBagLayout());
+        backbuttonpanel.setOpaque(false);
+        
         JButton backButton = new JButton("<-");
-        backButton.setBounds(10, 10, 70, 30); // Position top-left
-        add(backButton);
+        backButton.setBackground(Color.DARK_GRAY);
+        backButton.setForeground(Color.white);
+        
+        GridBagConstraints backButtonGbc = new GridBagConstraints();
+        backButtonGbc.gridx = 0;
+        backButtonGbc.gridy = 0;
+        backButtonGbc.anchor = GridBagConstraints.NORTHWEST; // Position top-left
+        backButtonGbc.insets = new Insets(10, 10, 0, 0); // Add padding for better positioning
+        backbuttonpanel.add(backButton, backButtonGbc);
+        
+        
+        GridBagConstraints mainPanelGbc = new GridBagConstraints();
+        mainPanelGbc.gridx = 0;
+        mainPanelGbc.gridy = 0;
+        mainPanelGbc.anchor = GridBagConstraints.NORTHWEST;
+        panel.setSize(900, 600);
+        panel.add(backbuttonpanel, mainPanelGbc);
+        
+        
+        System.out.println(panel.getWidth() + ", " + panel.getHeight());
+        
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,6 +108,7 @@ public class Daily extends JFrame {
             }
         });
 
+
         // Fetch and display the initial question
         String problemName = fetchCodeForceProblems();
         questionLabel.setText(problemName);
@@ -85,9 +117,14 @@ public class Daily extends JFrame {
         JButton attendTest = new JButton("Go To CodeForces");
         gbc.gridy = 2;
         panel.add(attendTest, gbc);
+        attendTest.setBackground(Color.decode("#E5D309"));
+        attendTest.setForeground(Color.black);
 
         // Time label for countdown
         countdownLabel = new JLabel("Time until next question: calculating...");
+        countdownLabel.setBackground(Color.white);
+        countdownLabel.setForeground(Color.white);
+        
         gbc.gridy = 3;
         panel.add(countdownLabel, gbc);
 
@@ -99,8 +136,19 @@ public class Daily extends JFrame {
                 ex.printStackTrace();
             }
         });
+        
+        attendTest.addMouseListener(new MouseAdapter() {
+        	public void mouseEntered(MouseEvent e) {
+        		attendTest.setBackground(Color.decode("#FED008"));
+        		attendTest.setForeground(Color.BLACK);
+        	}
+        	public void mouseExited(MouseEvent e) {
+        		attendTest.setBackground(Color.decode("#E5D309"));
+                attendTest.setForeground(Color.black);
+        	}
+        } );
 
-        add(panel);
+        //add(panel);
 
         // Schedule the reset at 12 PM daily and update the countdown
         scheduleQuestionReset();

@@ -41,6 +41,8 @@ public class Settings extends JFrame {
         settingspanel.setLayout(new GridBagLayout());
         JButton backButton = new JButton("<-");
         backButton.setBounds(10, 10, 70, 30); // Position top-left
+        backButton.setBackground(Color.DARK_GRAY);
+        backButton.setForeground(Color.white);
         add(backButton);
         backButton.addActionListener(new ActionListener() {
 

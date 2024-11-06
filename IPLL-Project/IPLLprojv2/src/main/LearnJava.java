@@ -28,6 +28,7 @@ public class LearnJava extends JFrame {
         setSize(900, 600);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        getContentPane().setBackground(Color.decode("#2B2B2B"));
         setLayout(new BorderLayout());  // Use BorderLayout to arrange components
 
         // Back button in a separate panel at the top
@@ -35,7 +36,13 @@ public class LearnJava extends JFrame {
         topPanel.setLayout(new FlowLayout(FlowLayout.LEFT));  // Align to the left
         JButton backButton = new JButton("<-");
         backButton.setPreferredSize(new Dimension(70, 30));  // Size for the button
+        backButton.setBackground(Color.DARK_GRAY);
+        backButton.setForeground(Color.white);
         topPanel.add(backButton);
+        JLabel info = new JLabel("More lessons are on the way ! stay tuned !!"); 
+        info.setForeground(Color.white);     
+        topPanel.add(info,BorderLayout.CENTER);
+        topPanel.setBackground(Color.decode("#2B2B2B"));
 
         add(topPanel, BorderLayout.NORTH);  // Add topPanel to the top (NORTH)
 
@@ -52,6 +59,8 @@ public class LearnJava extends JFrame {
         // Panel for the lesson buttons
         buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(0, 2, 20, 20));  // 2 columns with gaps
+        buttonPanel.setBackground(Color.decode("#2B2B2B"));
+        
         JScrollPane scrollPane = new JScrollPane(buttonPanel);
 
         add(scrollPane, BorderLayout.CENTER);  // Add the buttonPanel to the center (main area)
@@ -77,11 +86,12 @@ public class LearnJava extends JFrame {
             lessonButton.setPreferredSize(new Dimension(200, 100));  // Adjust button size
             lessonButton.setFocusable(false);
             lessonButton.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Add padding
-            lessonButton.setFont(new Font("Serif", Font.BOLD, 18));  // Set font style and size
+            lessonButton.setFont(new Font("Serif", Font.BOLD, 20));  // Set font style and size
             lessonButton.setBackground(new Color(173, 216, 230)); // Light blue background
             lessonButton.setForeground(Color.BLACK); // Black text
             lessonButton.setOpaque(true); // Make background visible
             lessonButton.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2)); // Border color
+            lessonButton.setToolTipText(database.getCollection(collectionName).find().first().getString("lessonName"));
 
             lessonButton.addActionListener(e -> openLesson(collectionName));
             lessonButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -143,13 +153,16 @@ public class LearnJava extends JFrame {
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setBackground(Color.decode("#2B2B2B")); // Set the slide background
+
         lessonFrame.add(contentPanel);
 
-        // Display the content of the lesson
         JTextArea contentArea = new JTextArea(lesson.getString("content"));
         contentArea.setLineWrap(true);
         contentArea.setWrapStyleWord(true);
         contentArea.setEditable(false);
+        contentArea.setBackground(Color.decode("#2B2B2B")); // Set background of theory content
+        contentArea.setForeground(Color.WHITE); // Set text color for readability
         contentPanel.add(new JScrollPane(contentArea));
 
         lessonFrame.setVisible(true);
@@ -163,9 +176,12 @@ public class LearnJava extends JFrame {
         lessonFrame.setSize(900, 600);
         lessonFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         lessonFrame.setLocationRelativeTo(this);
+        lessonFrame.setBackground(Color.decode("#2B2B2B"));
+        
 
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+        contentPanel.setBackground(Color.decode("#2B2B2B"));
         lessonFrame.add(contentPanel);
 
         loadSlide(contentPanel, slides, collectionName, lessonFrame);
@@ -177,24 +193,23 @@ public class LearnJava extends JFrame {
         contentPanel.removeAll();
         Document currentSlideDoc = slides.get(currentSlide);
 
-        // Create a vertical layout for the content
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
 
-        // Display the question content at the top
         JTextArea contentArea = new JTextArea(currentSlideDoc.getString("content"));
         contentArea.setLineWrap(true);
         contentArea.setWrapStyleWord(true);
         contentArea.setEditable(false);
         contentArea.setFont(new Font("Serif", Font.PLAIN, 18));
-        contentArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));  // Add some padding around the question
+        contentArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        contentArea.setBackground(Color.decode("#2B2B2B")); // Set background color of quiz content
+        contentArea.setForeground(Color.WHITE); // Set text color for readability
         contentPanel.add(contentArea);
 
-        // Create a 4x1 grid for quiz options
         JPanel optionsPanel = new JPanel();
-        optionsPanel.setLayout(new GridLayout(4, 1, 10, 10));  // 4 rows, 1 column with 10px gap between them
+        optionsPanel.setLayout(new GridLayout(4, 1, 10, 10));
+        optionsPanel.setBackground(Color.decode("#3B3B3B")); // Set lighter background for options pane
         contentPanel.add(optionsPanel);
 
-        // Handle quiz options if available
         if (currentSlideDoc.containsKey("options")) {
             List<Object> options = (List<Object>) currentSlideDoc.get("options");
             int correctIndex = currentSlideDoc.getInteger("ansindex");
@@ -206,25 +221,24 @@ public class LearnJava extends JFrame {
                 int optionIndex = i;
                 JRadioButton optionButton = new JRadioButton(options.get(i).toString());
                 optionButton.setFont(new Font("Serif", Font.PLAIN, 16));
+                optionButton.setBackground(Color.decode("#3B3B3B")); // Background for option buttons
+                optionButton.setForeground(Color.WHITE); // Text color for option buttons
                 optionButtons.add(optionButton);
                 buttonGroup.add(optionButton);
                 optionsPanel.add(optionButton);
 
-                // Action listener to track user's answer
                 optionButton.addActionListener(e -> {
                     for (JRadioButton btn : optionButtons) {
-                        btn.setBorder(BorderFactory.createEmptyBorder());  // Reset all borders first
+                        btn.setBorder(BorderFactory.createEmptyBorder());
                     }
 
-                    // Check if the selected option is correct or incorrect
                     if (optionIndex == correctIndex) {
-                        optionButton.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));  // Green border for correct
+                        optionButton.setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
                     } else {
-                        optionButton.setBorder(BorderFactory.createLineBorder(Color.RED, 3));    // Red border for incorrect
-                        optionButtons.get(correctIndex).setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));  // Highlight correct answer
+                        optionButton.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
+                        optionButtons.get(correctIndex).setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
                     }
 
-                    // Disable options after the user selects one
                     for (JRadioButton btn : optionButtons) {
                         btn.setEnabled(false);
                     }
@@ -232,22 +246,18 @@ public class LearnJava extends JFrame {
             }
         }
 
-        // Panel for navigation buttons (Next/Submit)
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.decode("#2B2B2B")); // Match the background color of the slides
         contentPanel.add(buttonPanel);
 
-        // If it's the last slide, show Submit button, otherwise Next
         if (currentSlide == slides.size() - 1) {
             JButton submitButton = new JButton("Submit");
             buttonPanel.add(submitButton);
-            submitButton.addActionListener(e -> {
-                submitLesson(collectionName, slides.size(), lessonFrame);
-            });
+            submitButton.addActionListener(e -> submitLesson(collectionName, slides.size(), lessonFrame));
         } else {
             JButton nextButton = new JButton("Next");
             buttonPanel.add(nextButton);
             nextButton.addActionListener(e -> {
-                // Ensure we don't go past the last slide
                 if (currentSlide < slides.size() - 1) {
                     currentSlide++;
                     loadSlide(contentPanel, slides, collectionName, lessonFrame);
